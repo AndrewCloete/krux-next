@@ -3,7 +3,7 @@ title: In Praise of Albums
 authors:
   - ydi_carstens
 image: /blog/In-praise-of-the-album.jpeg
-date: "2022-02-28"
+date: 2022-02-28
 thumbnail: https://github.com/AndrewCloete/krux-static/blob/master//blog/In-praise-of-the-album.jpeg?raw=true
 ---
 I am in the lucky class of humans that have the liberty to listen to music with a bit more attention. That is because my work as a painter allows me to employ visual and auditory senses (and sense-making) at the same time. Not all artists are the same, but in my case the quality of my auditory input is more or less equivalent to the rate of my productivity and enjoyment at the easel.
@@ -20,4 +20,4 @@ My praise for albums consists in two commonplace, but noteworthy things. Firstly
 
 Having few such-like endings in our lives and few rites of passage in general, I think the end of an album signifies something season-like, exactly what infinite scrolling does not. It reminds us that endings are normal, that cycles of productivity are followed by cycles of rest.
 
-Another reason for my appreciation of albums is that singles, like single paintings, are rarely capable of sounding the depths of whole albums. On an album the creative person gets to approach a theme or subject from multiple angles, wrestling with it over a longer period of time. The same applies to the visual arts. Working towards a solo exhibition, as I’m attempting to do at the moment, invites the artist to chew on their theme for months whereas a single work might take only a few weeks to create. It forces the artist to push through and wait out the frustration of complexity. The blessing of it lies in the fact that the weaker songs on the album (or paintings in the exhibition) become absorbed and redeemed in the layered story of the whole..
+Another reason for my appreciation of albums is that singles, like single paintings, are rarely capable of sounding the depths of whole albums. On an album the creative person gets to approach a theme or subject from multiple angles, wrestling with it over a longer period of time. The same applies to the visual arts. Working towards a solo exhibition, as I’m attempting to do at the moment, invites the artist to chew on their theme for months whereas a single work might take only a few weeks to create. It forces the artist to push through and wait out the frustration of complexity. The blessing of it lies in the fact that the weaker songs on the album (or paintings in the exhibition) become absorbed and redeemed in the layered story of the whole...
