@@ -1,6 +1,6 @@
 .bg_dining1 {
   background: linear-gradient(rgba(30, 30, 30, 0.8), rgba(30, 30, 30, 0.8)),
-    url("/dining1.webp?raw=true");
+    url("/img/dining1.webp?raw=true");
   background-size: auto 150vh;
   background-repeat: no-repeat;
   background-position: center;
