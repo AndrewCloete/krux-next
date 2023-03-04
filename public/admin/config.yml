@@ -4,8 +4,11 @@ backend:
 media_folder: public/img
 public_folder: img
 collections:
-  - name: "blog"
-    label: "Blog"
-    folder: "content/blog"
-    create: true # Allow users to create new documents in this collection
-    slug: "{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
+  - name: "pages"
+    label: "Pages"
+    files:
+      - label: "Blog"
+        name: "blog"
+        folder: "content/blog"
+        create: true # Allow users to create new documents in this collection
+        slug: "{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
