@@ -21,25 +21,25 @@ export default function Navbar() {
               Blog
             </Link>
             <Link
-              href="/"
+              href="/what-we-do"
               className="text-lg no-underline text-gray-800 hover:text-gray-400 px-2 lg:px-3"
             >
               What We Do
             </Link>
             <Link
-              href="/"
+              href="/courses"
               className="text-lg no-underline text-gray-800 hover:text-gray-400 px-2 lg:px-3"
             >
               Courses
             </Link>
             <Link
-              href="/"
+              href="/gallery"
               className="text-lg no-underline text-gray-800 hover:text-gray-400 px-2 lg:px-3"
             >
               Art Gallery
             </Link>
             <Link
-              href="/"
+              href="/team"
               className="text-lg no-underline text-gray-800 hover:text-gray-400 px-2 lg:px-3"
             >
               Meet the Team
