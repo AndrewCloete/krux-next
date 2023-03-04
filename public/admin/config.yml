@@ -1,14 +1,16 @@
 backend:
   name: git-gateway
   branch: main
+publish_mode: editorial_workflow
 media_folder: public/img
 public_folder: img
 collections:
-  - name: "pages"
-    label: "Pages"
-    files:
-      - label: "Blog"
-        name: "blog"
-        folder: "content/blog"
-        create: true # Allow users to create new documents in this collection
-        slug: "{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
+  - name: "blog"
+    label: "Blog"
+    folder: "content/blog"
+    create: true
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Featured Image", name: "thumbnail", widget: "image" }
+      - { label: "Body", name: "body", widget: "markdown" }
