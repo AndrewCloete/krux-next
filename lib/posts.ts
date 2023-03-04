@@ -4,9 +4,10 @@ import matter from "gray-matter";
 
 const postsDirectory = path.join(process.cwd(), "content/blog");
 
+type PostFrontMatter = { title: string; date: string; image: string };
 export type PostEntry = {
   id: string;
-  frontMatter: { [key: string]: string };
+  frontMatter: PostFrontMatter;
   content: string;
 };
 
@@ -25,7 +26,7 @@ export function getSortedPostsData(): PostEntry[] {
     const matterResult = matter(fileContents);
     const entry: PostEntry = {
       id,
-      frontMatter: matterResult.data,
+      frontMatter: matterResult.data as PostFrontMatter,
       content: matterResult.content,
     };
     return entry;
