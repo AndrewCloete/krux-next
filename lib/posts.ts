@@ -23,10 +23,15 @@ export function getSortedPostsData(): PostEntry[] {
     const fileContents = fs.readFileSync(fullPath, "utf8");
 
     // Use gray-matter to parse the post metadata section
-    const matterResult = matter(fileContents);
+    const matterResult = matter(fileContents, { language: "yaml" });
+    const { title, date, image } = matterResult.data;
     const entry: PostEntry = {
       id,
-      frontMatter: matterResult.data as PostFrontMatter,
+      frontMatter: {
+        title,
+        date: date.toDateString(),
+        image,
+      },
       content: matterResult.content,
     };
     return entry;

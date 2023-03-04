@@ -3,7 +3,7 @@ title: In Praise of Albums
 authors:
   - ydi_carstens
 image: /blog/In-praise-of-the-album.jpeg
-date: "2022-02-28"
+date: 2022-02-28
 thumbnail: https://github.com/AndrewCloete/krux-static/blob/master//blog/In-praise-of-the-album.jpeg?raw=true
 ---
 I am in the lucky class of humans that have the liberty to listen to music with a bit more attention. That is because my work as a painter allows me to employ visual and auditory senses (and sense-making) at the same time. Not all artists are the same, but in my case the quality of my auditory input is more or less equivalent to the rate of my productivity and enjoyment at the easel.

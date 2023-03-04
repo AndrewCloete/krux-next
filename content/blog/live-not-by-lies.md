@@ -3,7 +3,7 @@ title: "Live not by Lies (Nor by Fear)"
 authors: 
     - jb_krohn
 image: "/blog/Bruegel-the-Elder-The-Fall-of-the-Rebel-Angels-–-crop.jpg"
-date: "2021-08-31"
+date: 2021-08-31
 ---
 
 # Intro

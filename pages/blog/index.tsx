@@ -12,7 +12,7 @@ const Page: NextPageWithLayout = (props: { allPostsData: PostEntry[] }) => {
         {props.allPostsData.map(({ id, frontMatter }) => (
           <li key={id}>
             {frontMatter.title} &ensp; {frontMatter.date}
-            <Link href={`/blog/${id}`}>Link</Link>
+            &ensp;<Link href={`/blog/${id}`}>Link</Link>
           </li>
         ))}
       </ul>
