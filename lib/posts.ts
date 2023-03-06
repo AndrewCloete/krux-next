@@ -2,13 +2,41 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
+async function fetchAPI(query: string, variables: any = {}) {
+  const urlString = process.env.NEXT_PUBLIC_WEBINY_API_URL;
+  if (!urlString) {
+    throw new Error("NEXT_PUBLIC_WEBINY_API_URL is not defined");
+  }
+
+  const req = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.WEBINY_API_SECRET}`,
+    },
+    body: JSON.stringify({
+      query,
+      variables,
+    }),
+  };
+  const res = await fetch(urlString, req);
+
+  const json = await res.json();
+  if (json.errors) {
+    console.error(json.errors);
+    throw new Error("Failed to fetch API");
+  }
+
+  return json.data;
+}
+
 const postsDirectory = path.join(process.cwd(), "content/blog");
 
 type PostFrontMatter = { title: string; date: string; image: string };
 export type PostEntry = {
   id: string;
   frontMatter: PostFrontMatter;
-  content: string;
+  content: any;
 };
 
 export function getSortedPostsData(): PostEntry[] {
@@ -35,5 +63,35 @@ export function getSortedPostsData(): PostEntry[] {
       content: matterResult.content,
     };
     return entry;
+  });
+}
+
+export async function getSortedPostsDataCms(): Promise<PostEntry[]> {
+  // Get file names under /posts
+  const data = await fetchAPI(`
+  {
+    listBlogs {
+      data {
+        title,
+        date,
+        cover,
+        content
+      }
+    }
+  }
+  `);
+
+  console.log(data.listBlogs.data);
+  return data.listBlogs.data.map((entry: any) => {
+    const { title, date, cover, content } = entry;
+    return {
+      id: title,
+      frontMatter: {
+        title,
+        date,
+        image: cover,
+      },
+      content: content,
+    };
   });
 }

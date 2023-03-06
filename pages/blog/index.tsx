@@ -3,7 +3,7 @@ import Layout from "../../components/layout";
 import type { NextPageWithLayout } from "../_app";
 import Link from "next/link";
 
-import { getSortedPostsData, PostEntry } from "../../lib/posts";
+import { getSortedPostsData, getSortedPostsDataCms, PostEntry } from "../../lib/posts";
 
 const Page: NextPageWithLayout = (props: { allPostsData: PostEntry[] }) => {
   return (
@@ -27,7 +27,8 @@ Page.getLayout = function getLayout(page: ReactElement) {
 export default Page;
 
 export async function getStaticProps() {
-  const allPostsData = getSortedPostsData();
+  // const allPostsData = getSortedPostsData();
+  const allPostsData = await getSortedPostsDataCms() 
   return {
     props: {
       allPostsData,
