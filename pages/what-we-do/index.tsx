@@ -98,8 +98,8 @@ const Page: NextPageWithLayout = () => {
               that enables personal transformation in a uniquely powerful way.
               It is a constant and dynamic practice, including personal
               conversation, study and dialogue, counselling, seminars, and
-              hospitality; responsive to each individual's needs and challenges,
-              and resting on a continual theological equipping.
+              hospitality; responsive to each individual&apos;s needs and
+              challenges, and resting on a continual theological equipping.
             </div>
             <br />
           </div>
@@ -115,9 +115,10 @@ const Page: NextPageWithLayout = () => {
           <div className="container px-4 mx-auto font-sans text-slate-200 lg:w-2/3">
             “God does not want me to mould others into the image that seems good
             to me, that is, into my own image. Instead, in their freedom from me
-            God made other people in God's image. I can never know in advance
-            how God's image should appear in others. That image always takes on
-            a completely new and unique form.” - Dietrich Bonhoeffer
+            God made other people in God&apos;s image. I can never know in
+            advance how God&apos;s image should appear in others. That image
+            always takes on a completely new and unique form.” - Dietrich
+            Bonhoeffer
           </div>
         </div>
 
@@ -125,10 +126,10 @@ const Page: NextPageWithLayout = () => {
           <h1 className="text-4xl">Why Community?</h1>
           <div className="py-6 font-sans text-slate-500">
             <div>
-              Christ the Hospitable One ate with 'sinners' and welcomed
-              outsiders. He always offers a place at the table in anticipation
-              of the coming feast of the Kingdom of God. We believe a deep
-              theological grounding can only be truly achieved within the
+              Christ the Hospitable One ate with &lsquo;sinners&rsquo; and
+              welcomed outsiders. He always offers a place at the table in
+              anticipation of the coming feast of the Kingdom of God. We believe
+              a deep theological grounding can only be truly achieved within the
               context of community. At KRUX, a foundational stance of
               hospitality extends an invitation to enter into community though
               the ordinary. An open home, meals shared, time given and
@@ -150,8 +151,8 @@ const Page: NextPageWithLayout = () => {
             in each of us as a people gathered in Christ that true hospitality
             may begin to be shown; for hospitality is not simply what we do; nor
             is it a technique; hospitality is the gospel we embody. It is how we
-            welcome 'the other' in our own body, personally and communally.”
-            Clarke Scheibe, Canadian L'Abri
+            welcome &lsquo;the other&rsquo; in our own body, personally and
+            communally.” Clarke Scheibe, Canadian L&apos;Abri
           </div>
         </div>
 
@@ -169,13 +170,14 @@ const Page: NextPageWithLayout = () => {
               the renewal of culture, especially through the redeeming faculties
               of the imaginative and the creative. The Arts has the means to
               clothe the human struggle with metaphor and lived experience, and
-              beauty works an 'alchemy in the soul' (Hans Urs Von Balthasar),
-              which rouses a desire to re-appropriate the good and the true.
+              beauty works an &lsquo;alchemy in the soul&rsquo; (Hans Urs Von
+              Balthasar), which rouses a desire to re-appropriate the good and
+              the true.
             </div>
             <br />
             <div>
-              The Artists' Gathering, an annual highlight, connects artists of
-              faith from across Southern Africa, and has brought several
+              The Artists&apos; Gathering, an annual highlight, connects artists
+              of faith from across Southern Africa, and has brought several
               international speakers to our shores. Our Artist-in-Residence
               provides further engagement with faith and the arts throughout the
               year.
