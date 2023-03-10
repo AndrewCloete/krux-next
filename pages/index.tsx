@@ -30,11 +30,12 @@ const Page: NextPageWithLayout = () => {
               <span className="italic">theological discipleship</span>-a form of
               discipleship that seeks to bring both thought and behaviour under
               the lordship of Christ in fellowship with the work of the Holy
-              Spirit. Primarily this means gaining a deep understanding of God's
-              great act toward us in Christ, and therefore, the consequences of
-              the Gospel for all of human endeavour. It rests on a foundation of
-              Biblical exposition and historical orthodoxy, and is expressed as
-              a living theology in robust engagement with the real world.
+              Spirit. Primarily this means gaining a deep understanding of
+              God&apos;s great act toward us in Christ, and therefore, the
+              consequences of the Gospel for all of human endeavour. It rests on
+              a foundation of Biblical exposition and historical orthodoxy, and
+              is expressed as a living theology in robust engagement with the
+              real world.
             </div>
             <div className="lg:w-1/2 px-2">
               We believe a deep theological grounding can only be truly achieved
