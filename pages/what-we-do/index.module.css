@@ -1,0 +1,46 @@
+.bg_lounge {
+  background-image: url("https://d10y9s8kntsyn2.cloudfront.net/files/8lf2vh5hb-lounge.webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+}
+
+.bg_window {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.bg_study {
+  background-image: linear-gradient(
+      rgba(30, 30, 30, 0.8),
+      rgba(30, 30, 30, 0.8)
+    ),
+    url("https://d10y9s8kntsyn2.cloudfront.net/files/8lf2vh5fr-study-room.webp");
+}
+
+.bg_mentor {
+  background-image: linear-gradient(
+      rgba(30, 30, 30, 0.8),
+      rgba(30, 30, 30, 0.8)
+    ),
+    url("https://d10y9s8kntsyn2.cloudfront.net/files/8lf2vh5ga-Mentorsmall.webp");
+}
+
+.bg_community {
+  background-image: linear-gradient(
+      rgba(30, 30, 30, 0.8),
+      rgba(30, 30, 30, 0.8)
+    ),
+    url("https://d10y9s8kntsyn2.cloudfront.net/files/8lf2wtk9p-dining2.png");
+}
+
+.bg_dove {
+  background-image: linear-gradient(
+      rgba(30, 30, 30, 0.8),
+      rgba(30, 30, 30, 0.8)
+    ),
+    url("https://d10y9s8kntsyn2.cloudfront.net/files/8lf2vh5if-dove-art.webp");
+}
