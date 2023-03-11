@@ -37,6 +37,7 @@ export type PostEntry = {
   id: string;
   frontMatter: PostFrontMatter;
   content: any;
+  markdown?: string;
 };
 
 export function getSortedPostsData(): PostEntry[] {
@@ -76,6 +77,7 @@ export async function getSortedPostsDataCms(): Promise<PostEntry[]> {
         date,
         cover,
         content
+        markdown
       }
     }
   }
@@ -83,7 +85,7 @@ export async function getSortedPostsDataCms(): Promise<PostEntry[]> {
 
   console.log(data.listBlogs.data);
   return data.listBlogs.data.map((entry: any) => {
-    const { title, date, cover, content } = entry;
+    const { title, date, cover, content, markdown } = entry;
     return {
       id: title,
       frontMatter: {
@@ -92,6 +94,7 @@ export async function getSortedPostsDataCms(): Promise<PostEntry[]> {
         image: cover,
       },
       content: content,
+      markdown: markdown,
     };
   });
 }
