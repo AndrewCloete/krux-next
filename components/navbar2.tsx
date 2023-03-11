@@ -3,6 +3,9 @@ import { useState } from "react";
 
 export default function Navbar() {
   const [navbar, setNavbar] = useState(false);
+  function closeNavbar() {
+    setNavbar(false);
+  }
   return (
     <nav className="w-full shadow">
       <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
@@ -65,6 +68,7 @@ export default function Navbar() {
                 <Link
                   href="/blog"
                   className="text-lg no-underline text-gray-800 hover:text-gray-400 px-2 lg:px-3"
+                  onClick={closeNavbar}
                 >
                   Blog
                 </Link>
@@ -73,6 +77,7 @@ export default function Navbar() {
                 <Link
                   href="/what-we-do"
                   className="text-lg no-underline text-gray-800 hover:text-gray-400 px-2 lg:px-3"
+                  onClick={closeNavbar}
                 >
                   What We Do
                 </Link>
@@ -81,6 +86,7 @@ export default function Navbar() {
                 <Link
                   href="/courses"
                   className="text-lg no-underline text-gray-800 hover:text-gray-400 px-2 lg:px-3"
+                  onClick={closeNavbar}
                 >
                   Courses
                 </Link>
@@ -89,6 +95,7 @@ export default function Navbar() {
                 <Link
                   href="/gallery"
                   className="text-lg no-underline text-gray-800 hover:text-gray-400 px-2 lg:px-3"
+                  onClick={closeNavbar}
                 >
                   Art Gallery
                 </Link>
@@ -97,12 +104,17 @@ export default function Navbar() {
                 <Link
                   href="/team"
                   className="text-lg no-underline text-gray-800 hover:text-gray-400 px-2 lg:px-3"
+                  onClick={closeNavbar}
                 >
                   Meet the Team
                 </Link>
               </li>
               <li>
-                <Link className="text-white" href="/get-involved">
+                <Link
+                  className="text-white"
+                  href="/get-involved"
+                  onClick={closeNavbar}
+                >
                   <div className="bg-khaki my-2 px-4 py-3 rounded-lg font-sans text-xs font-semibold tracking-widest w-full sm:w-auto text-center">
                     <span className="mx-auto">GET INVOLVED</span>
                   </div>
