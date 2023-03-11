@@ -23,30 +23,25 @@ const Page: NextPageWithLayout = (props: { postData: PostEntry }) => {
   }
 
   return (
-    <div>
-      <h1>{props.postData.frontMatter.title}</h1>
-      <p>{props.postData.frontMatter.date}</p>
-      <div className="px-6">
-        <article className="p-3 ">
-          <div className="block">
-            <div className="text-gray-600 italic">{"2006-01-02"}</div>
-          </div>
-          <div className="lg:text-2xl">
-            {props.postData.content && (
-              <article className="prose lg:prose-xl">
-                <RichTextRenderer data={props.postData.content} />
-              </article>
-            )}
-            {props.postData.markdown && (
-              <article
-                className="prose lg:prose-xl"
-                dangerouslySetInnerHTML={{
-                  __html: markdownToHtml(props.postData.markdown),
-                }}
-              ></article>
-            )}
-          </div>
-        </article>
+    <div className="flex justify-center">
+      <div className="mx-auto">
+        <h1>{props.postData.frontMatter.title}</h1>
+        <p>{props.postData.frontMatter.date}</p>
+        <div className="lg:text-2xl">
+          {props.postData.content && (
+            <article className="prose lg:prose-xl">
+              <RichTextRenderer data={props.postData.content} />
+            </article>
+          )}
+          {props.postData.markdown && (
+            <article
+              className="prose lg:prose-xl"
+              dangerouslySetInnerHTML={{
+                __html: markdownToHtml(props.postData.markdown),
+              }}
+            ></article>
+          )}
+        </div>
       </div>
     </div>
   );

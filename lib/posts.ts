@@ -83,7 +83,6 @@ export async function getSortedPostsDataCms(): Promise<PostEntry[]> {
   }
   `);
 
-  console.log(data.listBlogs.data);
   return data.listBlogs.data.map((entry: any) => {
     const { title, date, cover, content, markdown } = entry;
     return {
