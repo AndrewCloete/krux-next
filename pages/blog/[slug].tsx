@@ -23,25 +23,44 @@ const Page: NextPageWithLayout = (props: { postData: PostEntry }) => {
   }
 
   return (
-    <div className="flex justify-center">
+    <div className="flex flex-col justify-center mt-5">
       <div className="mx-auto">
-        <h1>{props.postData.frontMatter.title}</h1>
-        <p>{props.postData.frontMatter.date}</p>
-        <div className="lg:text-2xl">
-          {props.postData.content && (
-            <article className="prose lg:prose-xl">
-              <RichTextRenderer data={props.postData.content} />
-            </article>
-          )}
-          {props.postData.markdown && (
-            <article
-              className="prose lg:prose-xl"
-              dangerouslySetInnerHTML={{
-                __html: markdownToHtml(props.postData.markdown),
-              }}
-            ></article>
-          )}
+        <div className="block">
+          <img
+            src={props.postData.frontMatter.image}
+            alt="..."
+            className="mx-auto"
+          />
+          <div className="flex">
+            <div className="mx-auto flex flex-col items-center -translate-y-1/2">
+              <img
+                src={props.postData.frontMatter.author.profilePic}
+                className="rounded-full w-16 h-16 sm:w-24 sm:h-24"
+                alt="..."
+              />
+              <div className="text-gray-600 text-lg">
+                {props.postData.frontMatter.author.name}
+              </div>
+            </div>
+          </div>
+          <h1>{props.postData.frontMatter.title}</h1>
+          <p>{props.postData.frontMatter.date}</p>
         </div>
+      </div>
+      <div className="lg:text-2xl mx-auto">
+        {props.postData.content && (
+          <article className="prose lg:prose-xl mx-3">
+            <RichTextRenderer data={props.postData.content} />
+          </article>
+        )}
+        {props.postData.markdown && (
+          <article
+            className="prose lg:prose-xl"
+            dangerouslySetInnerHTML={{
+              __html: markdownToHtml(props.postData.markdown),
+            }}
+          ></article>
+        )}
       </div>
     </div>
   );

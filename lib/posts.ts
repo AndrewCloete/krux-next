@@ -32,7 +32,12 @@ async function fetchAPI(query: string, variables: any = {}) {
 
 const postsDirectory = path.join(process.cwd(), "content/blog");
 
-type PostFrontMatter = { title: string; date: string; image: string };
+type PostFrontMatter = {
+  title: string;
+  date: string;
+  image: string;
+  author: { name: string; profilePic: string };
+};
 export type PostEntry = {
   id: string;
   frontMatter: PostFrontMatter;
@@ -60,6 +65,7 @@ export function getSortedPostsData(): PostEntry[] {
         title,
         date: date.toDateString(),
         image,
+        author: { name: "John Doe", profilePic: "/images/profile.jpg" },
       },
       content: matterResult.content,
     };
@@ -76,21 +82,26 @@ export async function getSortedPostsDataCms(): Promise<PostEntry[]> {
         title,
         date,
         cover,
-        content
-        markdown
+        content,
+        markdown,
+        authors {
+          name
+          profilePic
+        }
       }
     }
   }
   `);
 
   return data.listBlogs.data.map((entry: any) => {
-    const { title, date, cover, content, markdown } = entry;
+    const { title, date, cover, content, markdown, authors } = entry;
     return {
       id: title,
       frontMatter: {
         title,
         date,
         image: cover,
+        author: authors[0],
       },
       content: content,
       markdown: markdown,
