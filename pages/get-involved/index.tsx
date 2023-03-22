@@ -19,7 +19,13 @@ function RegisterForm() {
   return (
     <>
       <Turnstile ref={ref} siteKey={turnstileKey} />
-      <button onClick={() => alert(ref.current?.getResponse())}>
+      <button
+        onClick={() => {
+          const response = ref.current?.getResponse();
+          console.log(response);
+          alert(response);
+        }}
+      >
         Get response
       </button>
     </>
