@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { ReactElement } from "react";
 import Layout from "../../components/layout";
 import type { NextPageWithLayout } from "../_app";
@@ -12,21 +13,60 @@ import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
  * https://nextjs.org/docs/basic-features/environment-variables
  */
 
+const initialFormData: Record<string, string> = {
+  fullName: "",
+};
+
 function RegisterForm() {
+  const [formData, setFormData] = useState(initialFormData);
   const ref = useRef<TurnstileInstance>(null);
   const turnstileKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
+
+  const setValue = (k: string, v: string) => {
+    setFormData((oldData) => ({
+      ...oldData,
+      [k]: v,
+    }));
+  };
+
+  const handleSubmit = async () => {
+    const endpoint =
+      "https://z76ro7fay1.execute-api.eu-west-1.amazonaws.com/prod/test/hello";
+    const submitData = new FormData();
+    for (const k in formData) {
+      submitData.append(k, formData[k]);
+    }
+    submitData.append("token", ref.current?.getResponse() || "");
+    try {
+      const result = await fetch(endpoint, {
+        body: submitData,
+        method: "post",
+      });
+
+      const outcome = await result.json();
+      console.log(outcome);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <>
       <Turnstile ref={ref} siteKey={turnstileKey} />
       <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
         onClick={() => {
           const response = ref.current?.getResponse();
           console.log(response);
-          alert(response);
         }}
       >
         Get response
+      </button>
+      <button
+        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
+        onClick={handleSubmit}
+      >
+        Submit
       </button>
     </>
   );
