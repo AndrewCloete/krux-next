@@ -34,11 +34,17 @@ function RegisterForm() {
   const handleSubmit = async () => {
     const endpoint =
       "https://z76ro7fay1.execute-api.eu-west-1.amazonaws.com/prod/test/hello";
-    setValue("token", ref.current?.getResponse() || "");
     try {
-      const result = await axios.post(endpoint, formData, {
-        headers: { "Content-Type": "application/json" },
-      });
+      const result = await axios.post(
+        endpoint,
+        {
+          ...formData,
+          token: ref.current?.getResponse() || "",
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
       console.log(result);
     } catch (err) {
