@@ -6,6 +6,8 @@ import type { NextPageWithLayout } from "../_app";
 import { useRef } from "react";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 
+import axios from "axios";
+
 /**
  * Reference:
  * https://www.npmjs.com/package/@marsidev/react-turnstile
@@ -32,19 +34,13 @@ function RegisterForm() {
   const handleSubmit = async () => {
     const endpoint =
       "https://z76ro7fay1.execute-api.eu-west-1.amazonaws.com/prod/test/hello";
-    const submitData = new FormData();
-    for (const k in formData) {
-      submitData.append(k, formData[k]);
-    }
-    submitData.append("token", ref.current?.getResponse() || "");
+    setValue("token", ref.current?.getResponse() || "");
     try {
-      const result = await fetch(endpoint, {
-        body: submitData,
-        method: "post",
+      const result = await axios.post(endpoint, formData, {
+        headers: { "Content-Type": "application/json" },
       });
 
-      const outcome = await result.json();
-      console.log(outcome);
+      console.log(result);
     } catch (err) {
       console.error(err);
     }
