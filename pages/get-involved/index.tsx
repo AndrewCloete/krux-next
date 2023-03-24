@@ -33,7 +33,7 @@ function RegisterForm() {
 
   const handleSubmit = async () => {
     const endpoint =
-      "https://z76ro7fay1.execute-api.eu-west-1.amazonaws.com/prod/test/hello";
+      "https://z76ro7fay1.execute-api.eu-west-1.amazonaws.com/prod/hello";
     try {
       const result = await axios.post(
         endpoint,
