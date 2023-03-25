@@ -45,6 +45,24 @@ export function TextInput(props: {
   );
 }
 
+export function Checkbox(props: {
+  text: string;
+  value: boolean;
+  onChange: (e: boolean) => void;
+}) {
+  return (
+    <div className="flex items-center">
+      <input
+        className="form-checkbox h-5 w-5 text-gray-600"
+        type="checkbox"
+        checked={props.value}
+        onChange={(e) => props.onChange(e.target.checked)}
+      />
+      <label className="ml-2 text-gray-700">{props.text}</label>
+    </div>
+  );
+}
+
 export function Modal(props: {
   setOpenModal: (open: boolean) => void;
   children: React.ReactNode;
