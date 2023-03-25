@@ -11,6 +11,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        dkhaki: "rgb(79, 64, 8)",
         khaki: "rgb(99, 80, 10)",
         lkhaki: "rgb(190, 175, 154)",
         blood: "rgb(132, 35, 0)",

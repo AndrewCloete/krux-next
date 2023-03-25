@@ -2,6 +2,12 @@ import { useState } from "react";
 import type { ReactElement } from "react";
 import Layout from "../../components/layout";
 import type { NextPageWithLayout } from "../_app";
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+  TextInput,
+  Modal,
+} from "@/components/input";
 
 import { useRef } from "react";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
@@ -15,87 +21,145 @@ import axios from "axios";
  * https://nextjs.org/docs/basic-features/environment-variables
  */
 
-const initialFormData: Record<string, string> = {
-  fullName: "",
-};
+class BackendService {
+  private static baseUrl =
+    "https://z76ro7fay1.execute-api.eu-west-1.amazonaws.com";
+
+  constructor() {}
+
+  async register(email: string, token: string) {
+    const result = await axios.post(
+      `${BackendService.baseUrl}/prod/hello`,
+      { email, token },
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    console.log(result);
+  }
+}
 
 function RegisterForm() {
-  const [formData, setFormData] = useState(initialFormData);
+  const [email, setEmail] = useState("");
   const ref = useRef<TurnstileInstance>(null);
   const turnstileKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
 
-  const setValue = (k: string, v: string) => {
-    setFormData((oldData) => ({
-      ...oldData,
-      [k]: v,
-    }));
-  };
-
   const handleSubmit = async () => {
-    const endpoint =
-      "https://z76ro7fay1.execute-api.eu-west-1.amazonaws.com/prod/hello";
-    try {
-      const result = await axios.post(
-        endpoint,
-        {
-          ...formData,
-          token: ref.current?.getResponse() || "",
-        },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-
-      console.log(result);
-    } catch (err) {
-      console.error(err);
-    }
+    console.log(email);
+    // const backend = new Backend();
+    // await backend.register(email, ref.current?.getResponse() || "");
   };
 
   return (
     <>
-      <Turnstile ref={ref} siteKey={turnstileKey} />
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
-        onClick={() => {
-          const response = ref.current?.getResponse();
-          console.log(response);
-        }}
-      >
-        Get response
-      </button>
-      <button
-        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
-        onClick={handleSubmit}
-      >
-        Submit
-      </button>
+      <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div className="mb-4">
+          <TextInput
+            id="email"
+            placeHolder="Email"
+            value={email}
+            onChange={(e) => setEmail(e)}
+          />
+        </div>
+        <div className="my-2">
+          <span className="pr-2">
+            <ButtonPrimary label="Register" onClick={handleSubmit} />
+          </span>
+          <ButtonSecondary
+            label="Token test"
+            onClick={() => {
+              const response = ref.current?.getResponse();
+              console.log(response);
+            }}
+          />
+        </div>
+        <Turnstile
+          ref={ref}
+          siteKey={turnstileKey}
+          options={{ theme: "light" }}
+        />
+      </div>
+    </>
+  );
+}
+function BecomeAPatronForm() {
+  const [email, setEmail] = useState("");
+  const ref = useRef<TurnstileInstance>(null);
+  const turnstileKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
+
+  const handleSubmit = async () => {
+    console.log(email);
+    // const backend = new Backend();
+    // await backend.register(email, ref.current?.getResponse() || "");
+  };
+
+  return (
+    <>
+      <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div className="mb-4">
+          <TextInput
+            id="email"
+            placeHolder="Email"
+            value={email}
+            onChange={(e) => setEmail(e)}
+          />
+        </div>
+        <div className="my-2">
+          <span className="pr-2">
+            <ButtonPrimary label="Pay" onClick={handleSubmit} />
+          </span>
+          <ButtonSecondary
+            label="Token test"
+            onClick={() => {
+              const response = ref.current?.getResponse();
+              console.log(response);
+            }}
+          />
+        </div>
+        <Turnstile
+          ref={ref}
+          siteKey={turnstileKey}
+          options={{ theme: "light" }}
+        />
+      </div>
     </>
   );
 }
 
 const Page: NextPageWithLayout = () => {
+  const [registerOpen, setRegisterOpen] = useState(false);
   return (
     <>
       <div className="flex justify-center mt-5">
         <div className="mx-auto">
+          Register
           <div className="prose lg:prose-xl">
             There are several ways you can get involved with Krux
-            <div className="bg-khaki my-2 px-4 py-3 rounded-lg font-sans text-xs font-semibold tracking-widest w-full sm:w-auto text-center">
-              <span className="mx-auto text-white">REGISTER</span>
-            </div>
-            <div className="bg-khaki my-2 px-4 py-3 rounded-lg font-sans text-xs font-semibold tracking-widest w-full sm:w-auto text-center">
-              <span className="mx-auto text-white">BECOME A PATRON</span>
-            </div>
-            <a href="https://uwm.org/projects/63685/" className="text-white">
-              <div className="bg-khaki my-2 px-4 py-3 rounded-lg font-sans text-xs font-semibold tracking-widest w-full sm:w-auto text-center text-white">
-                <span className="mx-auto">DONATE</span>
-              </div>
-            </a>
           </div>
-          <RegisterForm />
+          <div className="my-2">
+            <ButtonPrimary
+              label="Register"
+              onClick={() => setRegisterOpen(true)}
+            />
+          </div>
+          <div className="my-2">
+            <ButtonPrimary label="Become a patron" onClick={() => {}} />
+          </div>
+          <div className="my-2">
+            <ButtonPrimary label="Donate" onClick={() => {}} />
+          </div>
         </div>
       </div>
+      {registerOpen && (
+        <Modal
+          setOpenModal={(isOpen) => {
+            setRegisterOpen(isOpen);
+          }}
+        >
+          <RegisterForm />
+        </Modal>
+      )}
     </>
   );
 };
