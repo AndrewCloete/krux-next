@@ -11,8 +11,7 @@ import {
 } from "@/components/input";
 
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
-
-import axios from "axios";
+import { BackendService } from "@/lib/BackendService";
 
 /**
  * Reference:
@@ -21,51 +20,30 @@ import axios from "axios";
  * https://nextjs.org/docs/basic-features/environment-variables
  */
 
-class BackendService {
-  private static baseUrl =
-    "https://z76ro7fay1.execute-api.eu-west-1.amazonaws.com";
-
-  constructor() {}
-
-  async register(
-    payload: { email: string; mailListKeys: string[] },
-    token: string
-  ) {
-    const result = await axios.post(
-      `${BackendService.baseUrl}/prod/hello`,
-      { ...payload, token },
-      {
-        headers: { "Content-Type": "application/json" },
-      }
-    );
-
-    console.log(result);
-  }
-}
-
 type MailLists = {
   [key: string]: {
     name: string;
-    key: string;
+    id: string;
     state: boolean;
   };
 };
 
+// Get values using CLI
 function initMailingLists(): MailLists {
   return {
     krux: {
       name: "Krux news, events and blog",
-      key: "2",
+      id: "ffc3c9b27c",
       state: false,
     },
     artistGathering: {
       name: "Artist's Gathering News",
-      key: "1",
+      id: "13229781f7",
       state: false,
     },
     krohn: {
       name: "Krohn's personal newsletter",
-      key: "4",
+      id: "38954f6f5d",
       state: false,
     },
   };
@@ -73,7 +51,12 @@ function initMailingLists(): MailLists {
 
 const turnstileKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
 
-type RegisterState = "input" | "loading" | "success" | "error";
+type RegisterState =
+  | "input"
+  | "loading"
+  | "success"
+  | "already_registered"
+  | "error";
 
 function RegisterForm() {
   const [email, setEmail] = useState("");
@@ -84,15 +67,31 @@ function RegisterForm() {
   const ref = useRef<TurnstileInstance>(null);
 
   const handleSubmit = async () => {
-    const mailListKeys = Object.values(mailingLists)
-      .filter((l) => l.state)
-      .map((l) => l.key);
-    console.log({ email, mailListKeys });
+    const mailInterests = Object.values(mailingLists).reduce(
+      (acc: { [key: string]: boolean }, l) => {
+        acc[l.id] = l.state;
+        return acc;
+      },
+      {}
+    );
+    console.log({ email, mailInterests });
     setRegisterState("loading");
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setRegisterState("success");
-    // const backend = new Backend();
-    // await backend.register(email, ref.current?.getResponse() || "");
+    const backend = new BackendService();
+    const result = await backend.register(
+      { email, mailInterests },
+      ref.current?.getResponse() || ""
+    );
+    switch (result) {
+      case "ALREADY_REGISTERED":
+        setRegisterState("already_registered");
+        return;
+      case "REGISTERED":
+        setRegisterState("success");
+        return;
+      case "ERROR":
+        setRegisterState("error");
+        return;
+    }
   };
 
   return (
@@ -144,24 +143,59 @@ function RegisterForm() {
         </div>
       )}
       {registerState === "loading" && "Loading..."}
-      {registerState === "success" && "Success"}
-      {registerState === "error" && "Error"}
+      {registerState === "success" && (
+        <>
+          <p>Thank you!</p>
+          <p> Please check your email to confirm your registration.</p>
+        </>
+      )}
+      {registerState === "already_registered" && "Already registered"}
+      {registerState === "error" &&
+        "Whoops! Something unexpected happened. Please try again later or contact us at info@krux.africa."}
     </>
   );
 }
+
+function PayFastForm(props: { formHtml: string }) {
+  return (
+    <form action="https://sandbox.payfast.co.za/eng/process" method="post">
+      <div dangerouslySetInnerHTML={{ __html: props.formHtml }}></div>
+      <input
+        type="submit"
+        value="Pay Now"
+        className="bg-khaki hover:bg-dkhaki text-white font-bold py-2 px-4 border border-dkhaki rounded"
+      ></input>
+    </form>
+  );
+}
+
 function BecomeAPatronForm() {
   const [email, setEmail] = useState("");
+  const [patronPayOpen, setPatronPayOpen] = useState(false);
+  const [patronPayFormContent, setPatronPayFormContent] =
+    useState("<div></div>");
   const ref = useRef<TurnstileInstance>(null);
 
   const handleSubmit = async () => {
-    console.log(email);
-    // const backend = new Backend();
-    // await backend.register(email, ref.current?.getResponse() || "");
+    const backend = new BackendService();
+    const result = await backend.getMembershipFormHtml(
+      { email },
+      ref.current?.getResponse() || ""
+    );
+    if (!result.html) {
+      console.error(result);
+      return;
+    }
+    setPatronPayFormContent(result.html);
+    setPatronPayOpen(true);
   };
 
   return (
     <>
       <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <p>
+          You need to be registered to become a patron. Verify your email here.
+        </p>
         <div className="mb-4">
           <TextInput
             id="email"
@@ -171,16 +205,15 @@ function BecomeAPatronForm() {
           />
         </div>
         <div className="my-2">
-          <span className="pr-2">
-            <ButtonPrimary label="Pay" onClick={handleSubmit} />
-          </span>
-          <ButtonSecondary
-            label="Token test"
-            onClick={() => {
-              const response = ref.current?.getResponse();
-              console.log(response);
-            }}
-          />
+          {!patronPayOpen && (
+            <>
+              <span className="pr-2">
+                <ButtonPrimary label="Verify" onClick={handleSubmit} />
+              </span>
+              <ButtonSecondary label="Token test" onClick={async () => {}} />
+            </>
+          )}
+          {patronPayOpen && <PayFastForm formHtml={patronPayFormContent} />}
         </div>
         <Turnstile
           ref={ref}
@@ -194,6 +227,8 @@ function BecomeAPatronForm() {
 
 const Page: NextPageWithLayout = () => {
   const [registerOpen, setRegisterOpen] = useState(false);
+  const [patronFormOpen, setPatronFormOpen] = useState(false);
+
   return (
     <>
       <div className="flex justify-center mt-5">
@@ -230,10 +265,22 @@ const Page: NextPageWithLayout = () => {
             <h2>Become a patron</h2>
             <p>
               You can become a patron of Krux for a year with a R500 donation.
-              You need to be registered in order to become a patron. ... todo
+              Patronage is our channel for committed individuals to help support
+              and guide the organisation. Patrons also receive a few additional{" "}
+              <a href="#">perks</a>. You can also read our{" "}
+              <a href="#">manifesto</a>.
+            </p>
+            <p>
+              To become a patron, you need to be registered. On confirmation of
+              payment, you will be added to the Patron mailing list.
             </p>
             <div className="my-2">
-              <ButtonPrimary label="Become a patron" onClick={() => {}} />
+              <ButtonPrimary
+                label="Become a patron"
+                onClick={async () => {
+                  setPatronFormOpen(true);
+                }}
+              />
             </div>
             <h2>Donate</h2>
             <p>
@@ -258,6 +305,15 @@ const Page: NextPageWithLayout = () => {
           }}
         >
           <RegisterForm />
+        </Modal>
+      )}
+      {patronFormOpen && (
+        <Modal
+          setOpenModal={(isOpen) => {
+            setPatronFormOpen(isOpen);
+          }}
+        >
+          <BecomeAPatronForm />
         </Modal>
       )}
     </>
