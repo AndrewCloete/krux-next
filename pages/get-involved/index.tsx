@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import type { ReactElement } from "react";
 import Layout from "../../components/layout";
 import type { NextPageWithLayout } from "../_app";
@@ -10,7 +10,6 @@ import {
   Modal,
 } from "@/components/input";
 
-import { useRef } from "react";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 
 import axios from "axios";
@@ -41,14 +40,47 @@ class BackendService {
   }
 }
 
+type MailLists = {
+  [key: string]: {
+    name: string;
+    key: string;
+    state: boolean;
+  };
+};
+
+function initMailingLists(): MailLists {
+  return {
+    krux: {
+      name: "Krux news, events and blog",
+      key: "2",
+      state: false,
+    },
+    artistGathering: {
+      name: "Artist's Gathering News",
+      key: "1",
+      state: false,
+    },
+    krohn: {
+      name: "Krohn's personal newsletter",
+      key: "4",
+      state: false,
+    },
+  };
+}
+
 function RegisterForm() {
   const [email, setEmail] = useState("");
-  const [newsLetter, setNewsLetter] = useState(false);
+  const [mailingLists, setMailingLists] = useState<MailLists>(
+    initMailingLists()
+  );
   const ref = useRef<TurnstileInstance>(null);
   const turnstileKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
 
   const handleSubmit = async () => {
-    console.log({ email, newsLetter });
+    const mailListKeys = Object.values(mailingLists)
+      .filter((l) => l.state)
+      .map((l) => l.key);
+    console.log({ email, mailListKeys });
     // const backend = new Backend();
     // await backend.register(email, ref.current?.getResponse() || "");
   };
@@ -64,11 +96,22 @@ function RegisterForm() {
             onChange={(e) => setEmail(e)}
           />
         </div>
-        <Checkbox
-          text="Subscribe to the newsletter"
-          value={newsLetter}
-          onChange={(e) => setNewsLetter(e)}
-        ></Checkbox>
+        {Object.keys(mailingLists).map((key: string) => {
+          return (
+            <Checkbox
+              text={mailingLists[key].name}
+              value={mailingLists[key].state}
+              onChange={(e) => {
+                const newList = {
+                  ...mailingLists,
+                  [key]: { ...mailingLists[key], state: e },
+                };
+                console.log(newList);
+                setMailingLists(newList);
+              }}
+            ></Checkbox>
+          );
+        })}
         <div className="my-2">
           <span className="pr-2">
             <ButtonPrimary label="Register" onClick={handleSubmit} />
