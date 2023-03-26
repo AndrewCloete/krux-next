@@ -27,10 +27,13 @@ class BackendService {
 
   constructor() {}
 
-  async register(email: string, token: string) {
+  async register(
+    payload: { email: string; mailListKeys: string[] },
+    token: string
+  ) {
     const result = await axios.post(
       `${BackendService.baseUrl}/prod/hello`,
-      { email, token },
+      { ...payload, token },
       {
         headers: { "Content-Type": "application/json" },
       }
@@ -68,75 +71,87 @@ function initMailingLists(): MailLists {
   };
 }
 
+const turnstileKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
+
+type RegisterState = "input" | "loading" | "success" | "error";
+
 function RegisterForm() {
   const [email, setEmail] = useState("");
   const [mailingLists, setMailingLists] = useState<MailLists>(
     initMailingLists()
   );
+  const [registerState, setRegisterState] = useState<RegisterState>("input");
   const ref = useRef<TurnstileInstance>(null);
-  const turnstileKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
 
   const handleSubmit = async () => {
     const mailListKeys = Object.values(mailingLists)
       .filter((l) => l.state)
       .map((l) => l.key);
     console.log({ email, mailListKeys });
+    setRegisterState("loading");
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setRegisterState("success");
     // const backend = new Backend();
     // await backend.register(email, ref.current?.getResponse() || "");
   };
 
   return (
     <>
-      <div className="bg-white  rounded px-8 pt-6 pb-8 mb-4">
-        <div className="mb-4">
-          <TextInput
-            id="email"
-            placeHolder="Email"
-            value={email}
-            onChange={(e) => setEmail(e)}
-          />
-        </div>
-        {Object.keys(mailingLists).map((key: string) => {
-          return (
-            <Checkbox
-              text={mailingLists[key].name}
-              value={mailingLists[key].state}
-              onChange={(e) => {
-                const newList = {
-                  ...mailingLists,
-                  [key]: { ...mailingLists[key], state: e },
-                };
-                console.log(newList);
-                setMailingLists(newList);
+      {registerState === "input" && (
+        <div className="bg-white  rounded px-8 pt-6 pb-8 mb-4">
+          <div className="mb-4">
+            <TextInput
+              id="email"
+              placeHolder="Email"
+              value={email}
+              onChange={(e) => setEmail(e)}
+            />
+          </div>
+          {Object.keys(mailingLists).map((key: string) => {
+            return (
+              <Checkbox
+                key={key}
+                text={mailingLists[key].name}
+                value={mailingLists[key].state}
+                onChange={(e) => {
+                  const newList = {
+                    ...mailingLists,
+                    [key]: { ...mailingLists[key], state: e },
+                  };
+                  console.log(newList);
+                  setMailingLists(newList);
+                }}
+              ></Checkbox>
+            );
+          })}
+          <div className="my-2">
+            <span className="pr-2">
+              <ButtonPrimary label="Submit" onClick={handleSubmit} />
+            </span>
+            <ButtonSecondary
+              label="Token test"
+              onClick={() => {
+                const response = ref.current?.getResponse();
+                console.log(response);
               }}
-            ></Checkbox>
-          );
-        })}
-        <div className="my-2">
-          <span className="pr-2">
-            <ButtonPrimary label="Register" onClick={handleSubmit} />
-          </span>
-          <ButtonSecondary
-            label="Token test"
-            onClick={() => {
-              const response = ref.current?.getResponse();
-              console.log(response);
-            }}
+            />
+          </div>
+          <Turnstile
+            ref={ref}
+            siteKey={turnstileKey}
+            options={{ theme: "light" }}
           />
         </div>
-        <Turnstile
-          ref={ref}
-          siteKey={turnstileKey}
-          options={{ theme: "light" }}
-        />
-      </div>
+      )}
+      {registerState === "loading" && "Loading..."}
+      {registerState === "success" && "Success"}
+      {registerState === "error" && "Error"}
     </>
   );
 }
 function BecomeAPatronForm() {
   const [email, setEmail] = useState("");
   const ref = useRef<TurnstileInstance>(null);
-  const turnstileKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
 
   const handleSubmit = async () => {
     console.log(email);
